@@ -1,5 +1,6 @@
 import os
-from setuptools import setup, find_packages
+from skbuild import setup
+from setuptools import find_packages
 import platform
 import torch
 
@@ -12,13 +13,12 @@ AUTHOR = "Nexa AI"
 AUTHOR_EMAIL = "octopus@nexa4ai.com"
 URL = "https://github.com/NexaAI/nexa-sdk"
 
-# Package data
-package_data = {
-    "nexaai": []
-}
 
 # Use the TARGET_PLATFORM environment variable to determine the target platform or use the current platform
 target_platform = os.environ.get("TARGET_PLATFORM", platform.system())
+llama_cpp_cmake_args = ''
+stable_diffusion_cpp_cmake_args = ''
+
 if target_platform in ['Linux', 'Windows']:
     if torch.cuda.is_available():
         llama_cpp_cmake_args = "-DGGML_CUDA=on"
@@ -55,7 +55,6 @@ setup(
     classifiers=[
         "Programming Language :: Python :: 3",
     ],
-    package_data=package_data,
     include_package_data=True,
     entry_points={
         "console_scripts": [
@@ -70,7 +69,9 @@ setup(
         stable_diffusion_cpp_cmake_args
     ],
     setup_requires=[
-        "scikit-build-core[pyproject]>=0.9.2",
+        "scikit-build",
+        "setuptools",
+        "pytorch",
     ],
     package_data={
         '': ['dependency/llama.cpp/*', 'dependency/stable-diffusion.cpp/*'],

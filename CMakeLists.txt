@@ -7,21 +7,21 @@ option(LLAMA_BUILD "Build llama.cpp shared library and install alongside python 
 option(LLAVA_BUILD "Build llava shared library and install alongside python package" ON)
 
 function(llama_cpp_python_install_target target)
+    # install(
+    #     TARGETS ${target}
+    #     LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    #     RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    #     ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    #     FRAMEWORK DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    #     RESOURCE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    # )
     install(
         TARGETS ${target}
-        LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-        RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-        ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-        FRAMEWORK DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-        RESOURCE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-    )
-    install(
-        TARGETS ${target}
-        LIBRARY DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
-        RUNTIME DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
-        ARCHIVE DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
-        FRAMEWORK DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
-        RESOURCE DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
+        LIBRARY DESTINATION ${SKBUILD_PLATLIB_DIR}
+        RUNTIME DESTINATION ${SKBUILD_PLATLIB_DIR}
+        ARCHIVE DESTINATION ${SKBUILD_PLATLIB_DIR}
+        FRAMEWORK DESTINATION ${SKBUILD_PLATLIB_DIR}
+        RESOURCE DESTINATION ${SKBUILD_PLATLIB_DIR}
     )
     set_target_properties(${target} PROPERTIES
         INSTALL_RPATH "$ORIGIN"
@@ -78,19 +78,19 @@ if (LLAMA_BUILD)
     if (WIN32)
         install(
             FILES $<TARGET_RUNTIME_DLLS:llama>
-            DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
+            DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
         )
         install(
             FILES $<TARGET_RUNTIME_DLLS:llama>
-            DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
+            DESTINATION ${SKBUILD_PLATLIB_DIR}
         )
         install(
             FILES $<TARGET_RUNTIME_DLLS:ggml_llama>
-            DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
+            DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
         )
         install(
             FILES $<TARGET_RUNTIME_DLLS:ggml_llama>
-            DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
+            DESTINATION ${SKBUILD_PLATLIB_DIR}
         )
     endif()
 
@@ -113,11 +113,11 @@ if (LLAMA_BUILD)
         if (WIN32)
             install(
                 FILES $<TARGET_RUNTIME_DLLS:llava_shared>
-                DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
+                DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
             )
             install(
                 FILES $<TARGET_RUNTIME_DLLS:llava_shared>
-                DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
+                DESTINATION ${SKBUILD_PLATLIB_DIR}
             )
         endif()
     endif()
@@ -145,32 +145,32 @@ if (STABLE_DIFFUSION_BUILD)
     add_subdirectory(dependency/stable-diffusion.cpp)
     install(
         TARGETS stable-diffusion
-        LIBRARY DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
-        RUNTIME DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
-        ARCHIVE DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
-        FRAMEWORK DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
-        RESOURCE DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
+        LIBRARY DESTINATION ${SKBUILD_PLATLIB_DIR}
+        RUNTIME DESTINATION ${SKBUILD_PLATLIB_DIR}
+        ARCHIVE DESTINATION ${SKBUILD_PLATLIB_DIR}
+        FRAMEWORK DESTINATION ${SKBUILD_PLATLIB_DIR}
+        RESOURCE DESTINATION ${SKBUILD_PLATLIB_DIR}
     )
 
     message(STATUS "SKBUILD_PLATLIB_DIR: ${SKBUILD_PLATLIB_DIR}")
     # Temporary fix for https://github.com/scikit-build/scikit-build-core/issues/374
-    install(
-        TARGETS stable-diffusion
-        LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-        RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-        ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-        FRAMEWORK DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-        RESOURCE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
-    )
+    # install(
+    #     TARGETS stable-diffusion
+    #     LIBRARY DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    #     RUNTIME DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    #     ARCHIVE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    #     FRAMEWORK DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    #     RESOURCE DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
+    # )
     # Workaround for Windows + CUDA
     if (WIN32)
         install(
             FILES $<TARGET_RUNTIME_DLLS:stable-diffusion>
-            DESTINATION ${SKBUILD_PLATLIB_DIR}/nexa/gguf/lib
+            DESTINATION ${SKBUILD_PLATLIB_DIR}
         )
         install(
             FILES $<TARGET_RUNTIME_DLLS:stable-diffusion>
-            DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}/nexa/gguf/lib
+            DESTINATION ${CMAKE_CURRENT_SOURCE_DIR}
         )
     endif()
 endif()

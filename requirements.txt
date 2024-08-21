@@ -2,6 +2,8 @@
 build
 wheel
 twine
+torch
+scikit-build
 
 # Faster Whisper
 faster_whisper

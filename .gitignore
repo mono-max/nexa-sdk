@@ -18,6 +18,7 @@ build*.sh
 *.dll
 *.dylib
 *.a
+_skbuild/
 
 # Python
 __pycache__/
