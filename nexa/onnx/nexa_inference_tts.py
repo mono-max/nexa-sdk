@@ -23,8 +23,8 @@ class NexaTTSInference:
     A class used for loading text-to-speech models and running text-to-speech generation.
 
     Methods:
-        run: Run the text-to-speech generation loop.
-        run_streamlit: Run the Streamlit UI.
+            run: Run the text-to-speech generation loop.
+            run_streamlit: Run the Streamlit UI.
 
     Args:
         model_path (str): Path or identifier for the model in Nexa Model Hub.
