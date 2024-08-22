@@ -27,37 +27,44 @@ Detailed API documentation is available [here](docs/index.html).
 ### GPU version(optional)
 
 check if you have GPU acceleration (torch required)
+
 <details>
   <summary>CUDA:</summary>
 
-  ```
-  import torch
-  torch.cuda.is_available()
-  ```
+```
+import torch
+torch.cuda.is_available()
+```
 
-  if True
+if True
 
-  ```
-  CMAKE_ARGS="-DGGML_CUDA=on -DSD_CUBLAS=ON" pip install nexaai
-  ```
-  Or you prefer to install our pre-built wheel:
-  ```bash
-  pip install nexaai --index-url https://nexaai.github.io/nexa-sdk/whl/cu124 --extra-index-url https://pypi.org/simple
-  ```
+```
+CMAKE_ARGS="-DGGML_CUDA=on -DSD_CUBLAS=ON" pip install nexaai
+```
+
+Or you prefer to install our pre-built wheel:
+
+```bash
+pip install nexaai --index-url https://nexaai.github.io/nexa-sdk/whl/cu124 --extra-index-url https://pypi.org/simple
+```
+
 </details>
 <details>
   <summary>Apple M Chip:</summary>
   Apple icon -> about this mac -> Graphics
 
-  if True:
+if True:
 
-  ```
-  CMAKE_ARGS="-DGGML_METAL=on -DSD_METAL=ON" pip install nexaai
-  ```
-  Or you prefer to install our pre-built wheel:
-  ```bash
-  pip install nexaai --index-url https://nexaai.github.io/nexa-sdk/whl/metal --extra-index-url https://pypi.org/simple
-  ```
+```
+CMAKE_ARGS="-DGGML_METAL=on -DSD_METAL=ON" pip install nexaai
+```
+
+Or you prefer to install our pre-built wheel:
+
+```bash
+pip install nexaai --index-url https://nexaai.github.io/nexa-sdk/whl/metal --extra-index-url https://pypi.org/simple
+```
+
 </details>
 
 ### CPU version
@@ -65,25 +72,29 @@ check if you have GPU acceleration (torch required)
 <details>
   <summary>Mac with Intel chips</summary>
 
-  ```
-  CMAKE_ARGS="-DCMAKE_CXX_FLAGS=-fopenmp" pip install nexaai
-  ```
+```
+CMAKE_ARGS="-DCMAKE_CXX_FLAGS=-fopenmp" pip install nexaai
+```
+
 </details>
 
 <details>
   <summary>Mac with M chips or other Operating systems:</summary>
 
-  ```
-  pip install nexaai
-  ```
+```
+pip install nexaai
+```
+
 </details>
 
 Or you prefer to install the pre-built wheel:
+
 ```bash
 pip install nexaai --index-url https://nexaai.github.io/nexa-sdk/whl/cpu --extra-index-url https://pypi.org/simple
 ```
 
 ### Docker Usage
+
 Note: Docker doesn't support GPU acceleration
 
 `docker pull nexa4ai/sdk:latest`
@@ -97,7 +108,6 @@ Example:
 `docker run -v /home/ubuntu/.cache/nexa/hub/official:/model -it nexa4ai/sdk:latest nexa gen-text /model/Phi-3-mini-128k-instruct/q4_0.gguf`
 
 will create an interactive session with text generation
-```
 
 ## Nexa CLI commands
 
@@ -105,8 +115,8 @@ will create an interactive session with text generation
 
 ### NLP Models
 
-| Model            | Type | Format    | Command                              |
-| ---------------- | ---- | --------- | ------------------------------------ |
+| Model            | Type | Format    | Command                          |
+| ---------------- | ---- | --------- | -------------------------------- |
 | octopus-v2       | NLP  | GGUF      | `nexa gen-text octopus-v2`       |
 | octopus-v4       | NLP  | GGUF      | `nexa gen-text octopus-v4`       |
 | tinyllama        | NLP  | GGUF      | `nexa gen-text tinyllama`        |
@@ -129,8 +139,8 @@ will create an interactive session with text generation
 
 ### Multimodal Models
 
-| Model            | Type       | Format | Command                         |
-| ---------------- | ---------- | ------ | ------------------------------- |
+| Model            | Type       | Format | Command                     |
+| ---------------- | ---------- | ------ | --------------------------- |
 | nanollava        | Multimodal | GGUF   | `nexa vlm nanollava`        |
 | llava-phi3       | Multimodal | GGUF   | `nexa vlm llava-phi3`       |
 | llava-llama3     | Multimodal | GGUF   | `nexa vlm llava-llama3`     |
@@ -139,8 +149,8 @@ will create an interactive session with text generation
 
 ### Computer Vision Models
 
-| Model                 | Type            | Format    | Command                              |
-| --------------------- | --------------- | --------- | ------------------------------------ |
+| Model                 | Type            | Format    | Command                          |
+| --------------------- | --------------- | --------- | -------------------------------- |
 | stable-diffusion-v1-4 | Computer Vision | GGUF      | `nexa gen-image sd1-4`           |
 | stable-diffusion-v1-5 | Computer Vision | GGUF/ONNX | `nexa gen-image sd1-5`           |
 | lcm-dreamshaper       | Computer Vision | GGUF/ONNX | `nexa gen-image lcm-dreamshaper` |
