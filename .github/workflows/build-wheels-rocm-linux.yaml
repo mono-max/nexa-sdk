@@ -60,10 +60,28 @@ jobs:
         run: |
           echo "Python setup exit code: ${{ steps.setup-python.outcome }}"
           echo "Python location: ${{ env.pythonLocation }}"
-          ls -la ${{ env.pythonLocation }}/bin || echo "Python bin directory not found"
-          ${{ env.pythonLocation }}/bin/python --version || echo "Python not found"
+          ls -la ${{ env.pythonLocation }}/bin
+          ${{ env.pythonLocation }}/bin/python --version
           ${{ env.pythonLocation }}/bin/pip --version || echo "Pip not found"
           echo "PATH: $PATH"
+
+      - name: Examine pip file
+        if: always()
+        run: |
+          cat /__t/Python/3.11.9/x64/bin/pip
+
+      - name: Reinstall pip
+        if: always()
+        run: |
+          /__t/Python/3.11.9/x64/bin/python -m ensurepip --upgrade
+          /__t/Python/3.11.9/x64/bin/python -m pip --version
+
+      - name: Install pip manually
+        if: failure()
+        run: |
+          curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+          /__t/Python/3.11.9/x64/bin/python get-pip.py
+          /__t/Python/3.11.9/x64/bin/python -m pip --version
 
       - name: Install Dependencies
         run: |
