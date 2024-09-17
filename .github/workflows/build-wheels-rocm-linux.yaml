@@ -48,22 +48,22 @@ jobs:
           submodules: "recursive"
 
       - name: Setup Python
-              uses: actions/setup-python@v5
-              continue-on-error: true
-              id: setup-python
-              with:
-                python-version: ${{ matrix.pyver }}
-                cache: "pip"
+        uses: actions/setup-python@v5
+        continue-on-error: true
+        id: setup-python
+        with:
+          python-version: ${{ matrix.pyver }}
+          cache: "pip"
 
       - name: Debug Python installation
-              if: always()
-              run: |
-                echo "Python setup exit code: ${{ steps.setup-python.outcome }}"
-                echo "Python location: ${{ env.pythonLocation }}"
-                ls -la ${{ env.pythonLocation }}/bin || echo "Python bin directory not found"
-                ${{ env.pythonLocation }}/bin/python --version || echo "Python not found"
-                ${{ env.pythonLocation }}/bin/pip --version || echo "Pip not found"
-                echo "PATH: $PATH"
+        if: always()
+        run: |
+          echo "Python setup exit code: ${{ steps.setup-python.outcome }}"
+          echo "Python location: ${{ env.pythonLocation }}"
+          ls -la ${{ env.pythonLocation }}/bin || echo "Python bin directory not found"
+          ${{ env.pythonLocation }}/bin/python --version || echo "Python not found"
+          ${{ env.pythonLocation }}/bin/pip --version || echo "Pip not found"
+          echo "PATH: $PATH"
 
       - name: Install Dependencies
         run: |
