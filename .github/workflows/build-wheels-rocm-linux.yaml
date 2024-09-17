@@ -103,8 +103,16 @@ jobs:
         run: |
           export VERBOSE=1
           export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
-          export CMAKE_ARGS='-DGGML_HIPBLAS=ON -DCMAKE_HIP_COMPILER="$(hipconfig -l)/clang"'
+          
+          # Use command substitution to get the HIP compiler path
+          HIP_COMPILER_PATH=$(hipconfig -l)/clang
+          
+          # Use the variable in CMAKE_ARGS
+          export CMAKE_ARGS="-DGGML_HIPBLAS=ON -DCMAKE_HIP_COMPILER=${HIP_COMPILER_PATH}"
           export CMAKE_ARGS="$CMAKE_ARGS -DGGML_AVX2=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF"
+          
+          # Print CMAKE_ARGS for debugging
+          echo "CMAKE_ARGS: $CMAKE_ARGS"
           
           cmake -B build -S . $CMAKE_ARGS
           cmake --build build --config Release -j $(nproc)
