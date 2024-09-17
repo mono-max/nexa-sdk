@@ -114,22 +114,22 @@ jobs:
           # Print CMAKE_ARGS for debugging
           echo "CMAKE_ARGS: $CMAKE_ARGS"
           
-          cmake -B build -S . $CMAKE_ARGS
-          cmake --build build --config Release -j $(nproc)
+          # cmake -B build -S . $CMAKE_ARGS
+          # cmake --build build --config Release -j $(nproc)
           
           python -m build --wheel
 
-      - name: Build Wheel with legacy HIP support
-        run: |
-          export VERBOSE=1
-          export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
-          export CMAKE_ARGS='-DGGML_HIPBLAS=ON -DCMAKE_C_COMPILER=hipcc -DCMAKE_CXX_COMPILER=hipcc'
-          export CMAKE_ARGS="$CMAKE_ARGS -DGGML_AVX2=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF"
+      # - name: Build Wheel with legacy HIP support
+      #   run: |
+      #     export VERBOSE=1
+      #     export CMAKE_BUILD_PARALLEL_LEVEL=$(nproc)
+      #     export CMAKE_ARGS='-DGGML_HIPBLAS=ON -DCMAKE_C_COMPILER=hipcc -DCMAKE_CXX_COMPILER=hipcc'
+      #     export CMAKE_ARGS="$CMAKE_ARGS -DGGML_AVX2=OFF -DGGML_FMA=OFF -DGGML_F16C=OFF"
           
-          cmake -B build2 -S . $CMAKE_ARGS
-          cmake --build build2 --config Release -j $(nproc)
+      #     cmake -B build2 -S . $CMAKE_ARGS
+      #     cmake --build build2 --config Release -j $(nproc)
           
-          python -m build --wheel
+      #     python -m build --wheel
 
       - name: Prepare Release
         run: |
