@@ -15,14 +15,14 @@ jobs:
       - name: Define Job Output
         id: set-matrix
         run: |
-          matrix=$(cat << EOF
+          matrix=$(cat << 'EOL'
           {
             "os": ["ubuntu-22.04"],
             "pyver": ["3.7", "3.8", "3.9", "3.10", "3.11", "3.12"],
             "rocm": ["6.0.2"],
             "releasetag": ["basic"]
           }
-          EOF
+          EOL
           )
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
         shell: bash
