@@ -53,6 +53,13 @@ jobs:
           python-version: ${{ matrix.pyver }}
           cache: "pip"
 
+      - name: Debug Python installation
+        run: |
+          which python
+          python --version
+          which pip
+          pip --version
+
       - name: Install Dependencies
         run: |
           sudo apt-get update
