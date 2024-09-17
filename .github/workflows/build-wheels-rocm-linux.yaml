@@ -38,8 +38,11 @@ jobs:
       - name: Install git on container
         run: |
           apt update
-          apt install -y git
-          
+          apt install -y git\
+
+      - name: Install lsb-release
+        run: sudo apt-get update && sudo apt-get install -y lsb-release
+
       - uses: actions/checkout@v4
         with:
           submodules: "recursive"
