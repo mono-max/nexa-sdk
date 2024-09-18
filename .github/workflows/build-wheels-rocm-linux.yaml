@@ -153,17 +153,27 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+      with:
+        submodules: "recursive"
 
     - name: Install dependencies
       run: |
         apt-get update
         apt-get install -y python3-pip python3-venv rocm-libs
 
-    - name: Set up Python environment
+    - name: Install git on container
       run: |
-        python3 -m venv /opt/venv
-        . /opt/venv/bin/activate
+        apt update
+        apt install -y git
+
+    - name: Setup Python
+      uses: actions/setup-python@v5
+      continue-on-error: true
+      id: setup-python
+      with:
+        python-version: ${{ matrix.pyver }}
+        cache: "pip"
 
     - name: Set ROCm environment variables
       run: |
