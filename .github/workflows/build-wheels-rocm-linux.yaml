@@ -152,6 +152,11 @@ jobs:
       options: --user root
 
     steps:
+    - name: Install git on container
+      run: |
+        apt update
+        apt install -y git
+
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
@@ -161,11 +166,6 @@ jobs:
       run: |
         apt-get update
         apt-get install -y python3-pip python3-venv rocm-libs
-
-    - name: Install git on container
-      run: |
-        apt update
-        apt install -y git
 
     - name: Setup Python
       uses: actions/setup-python@v5
