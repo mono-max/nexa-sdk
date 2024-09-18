@@ -139,11 +139,10 @@
 # Test ROCm Docker Build
 name: Test ROCm Docker Build
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: workflow_dispatch
+
+permissions:
+  contents: write
 
 jobs:
   build-and-test:
