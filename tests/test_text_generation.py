@@ -73,3 +73,5 @@ if __name__ == "__main__":
     test_create_chat_completion()
     print("=== Testing 4 ===")
     test_create_embedding()
+    print("=== Testing 5 ===")
+    test_create_embedding()
