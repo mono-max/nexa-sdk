@@ -9,7 +9,6 @@ import numpy as np
 
 from nexa import __version__
 import nexa.eval.nexa_task.metrics
-import nexa.eval.nexa_task.registry
 from nexa.eval.nexa_task.task import Task
 from nexa.eval.nexa_models import GGUFLM
 from nexa.eval.evaluator_utils import (

@@ -8,7 +8,19 @@ from dataclasses import dataclass
 from typing import Callable, Iterable, List, Union
 
 from nexa.eval.nexa_task.instance import Instance
-from nexa.eval.nexa_task.registry import register_filter, get_filter
+
+filter_map = {
+    "regex": "RegexFilter",
+    "remove_whitespace": "WhitespaceFilter",
+    "take_first": "TakeFirstFilter",
+}
+
+def get_filter(filter_name: str) -> type:
+    if filter_name in filter_map:
+        return globals()[filter_map[filter_name]]
+    else:
+        eval_logger.warning(f"Filter `{filter_name}` is not registered!")
+        raise KeyError(f"Filter `{filter_name}` not found in filter_map.")
 
 
 class Filter(ABC):
@@ -36,7 +48,6 @@ class Filter(ABC):
         return resps
 
 
-@register_filter("regex")
 class RegexFilter(Filter):
     """ """
 
@@ -81,7 +92,6 @@ class RegexFilter(Filter):
         return filtered_resps
 
 
-@register_filter("remove_whitespace")
 class WhitespaceFilter(Filter):
     """ """
 
@@ -101,7 +111,6 @@ class WhitespaceFilter(Filter):
         return filtered_resps
 
 
-@register_filter("take_first")
 class TakeFirstFilter(Filter):
     def __init__(self) -> None:
         """
@@ -115,7 +124,6 @@ class TakeFirstFilter(Filter):
         return map(lambda r: r[0], resps)
 
 
-@dataclass
 class FilterEnsemble:
     """
     FilterEnsemble creates a pipeline applying multiple filters.
@@ -124,8 +132,15 @@ class FilterEnsemble:
     pipeline separately.
     """
 
-    name: str
-    filters: List[Callable[[], Filter]]
+    def __init__(self, name: str, filters: List[Callable[[], Filter]]) -> None:
+        """
+        Initializes the FilterEnsemble with a name and a list of filters.
+        
+        :param name: The name of the filter ensemble.
+        :param filters: A list of filters to be applied sequentially.
+        """
+        self.name = name
+        self.filters = filters
 
     def apply(self, instances: List[Instance]) -> None:
         resps, docs = zip(*((inst.resps, inst.doc) for inst in instances))

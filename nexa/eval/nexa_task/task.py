@@ -27,10 +27,9 @@ from tqdm import tqdm
 from nexa.eval import utils
 from nexa.eval.nexa_task import samplers
 from nexa.eval.nexa_task.instance import Instance, OutputType
-from nexa.eval.nexa_task.metrics import mean
-from nexa.eval.nexa_task.registry import (
-    AGGREGATION_REGISTRY,
-    DEFAULT_METRIC_REGISTRY,
+from nexa.eval.nexa_task.metrics import (
+    DEFAULT_METRIC,
+    aggregation_map,
     get_aggregation,
     get_metric,
     get_metric_aggregation,
@@ -44,6 +43,7 @@ ALL_OUTPUT_TYPES = [
     "multiple_choice",
     "generate_until",
 ]
+
 
 eval_logger = logging.getLogger("nexa-eval")
 
@@ -227,15 +227,13 @@ class Task:
         self._higher_is_better = {}
 
         if self.config.metric_list is None:
-            # TODO: handle this in TaskConfig.__post_init__ ?
-            _metric_list = DEFAULT_METRIC_REGISTRY[self.config.output_type]
+
+            _metric_list = DEFAULT_METRIC[self.config.output_type]
 
             for metric_name in _metric_list:
-                self._metric_fn_list[metric_name] = get_metric(metric_name)
+                self._metric_fn_list[metric_name] = DEFAULT_METRIC
                 self._metric_fn_kwargs[metric_name] = {}
-                self._aggregation_list[metric_name] = get_metric_aggregation(
-                    metric_name
-                )
+                self._aggregation_list[metric_name] = aggregation_map[metric_name]
                 self._higher_is_better[metric_name] = is_higher_better(metric_name)
         else:
             for metric_config in self.config.metric_list:
@@ -264,9 +262,7 @@ class Task:
                     self._metric_fn_list[metric_name] = metric_fn
                     self._metric_fn_kwargs[metric_name] = kwargs
                 else:
-                    self._metric_fn_list[metric_name] = get_metric(
-                        metric_name, hf_evaluate_metric
-                    )
+                    self._metric_fn_list[metric_name] = get_metric(metric_name)
                     self._metric_fn_kwargs[metric_name] = kwargs
 
                 if "aggregation" in metric_config:
@@ -278,7 +274,7 @@ class Task:
                             "aggregation"
                         ]
                 else:
-                    INV_AGG_REGISTRY = {v: k for k, v in AGGREGATION_REGISTRY.items()}
+                    INV_AGG_REGISTRY = {v: k for k, v in aggregation_map.items()}
                     metric_agg = get_metric_aggregation(metric_name)
                     eval_logger.warning(
                         f"[Task: {self.config.task}] metric {metric_name} is defined, but aggregation is not. "
