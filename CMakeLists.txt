@@ -191,3 +191,33 @@ if (LLAMA_BUILD)
     endif()
 endif()
 
+# Project: bark_cpp
+project(bark_cpp_python)
+
+option(BARK_BUILD "Build bark.cpp shared library and install alongside python package" ON)
+
+if (BARK_BUILD)
+    set(BUILD_SHARED_LIBS ON CACHE BOOL "Build shared libraries" FORCE)
+    
+    # Enable position-independent code for all targets
+    set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+
+    # Add the bark.cpp subdirectory
+    add_subdirectory(dependency/bark.cpp)
+
+    add_library(bark_shared SHARED
+       dependency/bark.cpp/bark.cpp
+    )
+
+    set_target_properties(bark_shared PROPERTIES OUTPUT_NAME bark)
+    # Ensure ggml and encodec are built as shared libraries
+    set_target_properties(ggml PROPERTIES POSITION_INDEPENDENT_CODE ON)
+    set_target_properties(encodec PROPERTIES POSITION_INDEPENDENT_CODE ON)
+
+    # Link the shared library with the same dependencies as the static library
+    target_link_libraries(bark_shared PUBLIC ggml encodec)
+
+    llama_cpp_python_install_target(bark_shared)
+    llama_cpp_python_install_target(ggml)
+    llama_cpp_python_install_target(encodec)
+endif()
