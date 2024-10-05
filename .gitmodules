@@ -6,3 +6,6 @@
 	path = dependency/llama.cpp
 	url = https://github.com/NexaAI/llama.cpp.git
 	branch = experiment-branch
+[submodule "dependency/bark.cpp"]
+	path = dependency/bark.cpp
+	url = https://github.com/NexaAI/bark.cpp.git
