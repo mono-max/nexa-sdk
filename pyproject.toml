@@ -57,8 +57,8 @@ onnx = [
 
 eval = [
     "sympy",
-    "openai",
-    "antlr4-python3-runtime==4.11",
+    "openai", # review : if openai is used, where could user pass in their API key?
+    "antlr4-python3-runtime==4.11", # review : why this version? could it be >= 4.11?
     "rouge_score",
     "evaluate",
     "pytablewriter",

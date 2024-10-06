@@ -132,7 +132,7 @@ python -m nexa.gguf.server.nexa_service llama2-function-calling
 ### Test Eval
 
 ```bash
-python -m nexa.cli.entry eval phi3 --tasks ifeval --limit 5
+python -m nexa.cli.entry eval phi3 --tasks ifeval --limit 5 // review : elaborate all benchmark datasets, and add <1 limit cases for product team to run full test, also add a small test case with full test set
 python -m nexa.cli.entry eval phi3 --tasks math --limit 5
 python -m nexa.cli.entry eval phi3 --tasks mgsm_direct --limit 5
 ```

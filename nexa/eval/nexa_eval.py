@@ -22,11 +22,11 @@ class NexaEval:
         self.model_path = model_path
         
         self.model_name = model_path.split(":")[0].lower()
-        self.model_tag = model_path.split(":")[1].lower()
+        self.model_tag = model_path.split(":")[1].lower() # review : is split safe here? what if index 1 does not exist?
         self.limit = limit
         self.tasks = tasks
         self.server_process = None
-        self.server_url = "http://0.0.0.0:8300"
+        self.server_url = "http://0.0.0.0:8300" # review : what if the port is already in use? need to add retry logic to find another port
         output_path = Path(NEXA_MODEL_EVAL_RESULTS_PATH) / self.model_name / self.model_tag / tasks.replace(',', '_')
         self.eval_args = {
             "model": model_path,
@@ -45,7 +45,7 @@ class NexaEval:
         self.server_process = multiprocessing.Process(
             target=NexaServer,
             args=(self.model_path,),
-            kwargs={"host": "0.0.0.0", "port": 8300, "nctx": 4096},
+            kwargs={"host": "0.0.0.0", "port": 8300, "nctx": 4096}, # review : what if nctx needs to be changed? this parameter should be exposed to developers
         )
         self.server_process.start()
         print("INFO", f"Started server process for model: {self.model_path}")
